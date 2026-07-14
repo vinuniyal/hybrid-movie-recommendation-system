@@ -3,18 +3,15 @@ import pandas as pd
 import pickle
 
 st.set_page_config(page_title="MovieMatch", page_icon="🎬", layout="centered")
-
 st.markdown("""
 <style>
     html, body, [class*="css"] {
         font-family: 'Segoe UI', sans-serif;
     }
-
-    .stApp {
+     .stApp {
         background: linear-gradient(180deg, #0e1117 0%, #141821 100%);
     }
-
-    .app-title {
+     .app-title {
         font-size: 42px;
         font-weight: 800;
         color: #e50914;
@@ -98,7 +95,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
 @st.cache_resource
 def load_everything():
     model = pickle.load(open('svd_model.pkl', 'rb'))
@@ -111,10 +107,8 @@ model, genre_matrix, movies, final_sample = load_everything()
 
 movies = movies.reset_index(drop=True)
 indices = pd.Series(movies.index, index=movies['title'])
-
 movie_rating_counts = final_sample.groupby('movieId').size()
 popular_enough = set(movie_rating_counts[movie_rating_counts >= 20].index)
-
 active_user_ids = (
     final_sample.groupby('userId').size()
     .sort_values(ascending=False)
@@ -131,9 +125,7 @@ st.markdown('<div class="app-title">🎬 MovieMatch</div>', unsafe_allow_html=Tr
 st.markdown('<div class="app-subtitle">A hybrid recommendation engine — collaborative filtering for known users, content-based for new ones.</div>', unsafe_allow_html=True)
 
 mode = st.radio("", ["I'm a returning user", "I'm new here"], horizontal=True, label_visibility="collapsed")
-
 st.write("")
-
 if mode == "I'm a returning user":
     st.markdown('<div class="section-label">Select your profile</div>', unsafe_allow_html=True)
     friendly_name = st.selectbox("", list(label_to_id.keys()), label_visibility="collapsed")
